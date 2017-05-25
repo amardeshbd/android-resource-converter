@@ -1,5 +1,7 @@
 #!/usr/bin/python -u
 
+# Installation (for detailed instruction see - https://github.com/amardeshbd/android-resource-converter/blob/master/README.md
+
 # usage: $ python csv2xml.py <file_with_translations>.csv
 
 import csv
@@ -10,9 +12,10 @@ reader = csv.reader(open(sys.argv[1], "rb"), delimiter='\t', quotechar='',
                     skipinitialspace=False, quoting=csv.QUOTE_NONE)
 translations = []
 roots = []
+resourceKey = "Key"
 
 for row in reader:
-    if row[0] == "key":
+    if row[0] == resourceKey:
         translations = row
         translations.pop(0)
         break
@@ -21,7 +24,7 @@ for translation in translations:
     roots.append(etree.Element("resources"))
 
 for row in reader:
-    if row[0] != "key":
+    if row[0] != resourceKey:
         number_of_translations = len(row) - 1
         for i in range(0, number_of_translations):
             string_resource = etree.SubElement(roots[i], "string")
