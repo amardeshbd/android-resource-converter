@@ -6,7 +6,7 @@
 # ------------------------------------
 # wget https://bootstrap.pypa.io/get-pip.py
 # sudo python get-pip.py
-# sudo pip install -r requirements.txt
+# sudo pip install -r 'lxml'
 
 
 # Usage: $ python csv2xml.py <file_with_translations>.csv
