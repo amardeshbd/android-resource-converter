@@ -13,6 +13,7 @@ reader = csv.reader(open(sys.argv[1], "rb"), delimiter='\t', quotechar='',
 translations = []
 roots = []
 resourceKey = "Key"
+resourceNameKey = "name"
 
 for row in reader:
     if row[0] == resourceKey:
@@ -28,10 +29,19 @@ for row in reader:
         number_of_translations = len(row) - 1
         for i in range(0, number_of_translations):
             string_resource = etree.SubElement(roots[i], "string")
-            string_resource.set("name", row[0])
-            string_resource.text = row[i + 1].decode('utf-8')
+            string_resource.set(resourceNameKey, row[0])
+            string_resource.text = row[i + 1].decode('utf-8').replace("'", "\\'")
             if number_of_translations == 1:
                 string_resource.set("translatable", "false")
+
+# Function to sort the keys
+def sortchildrenby(parent, attr):
+    parent[:] = sorted(parent, key=lambda child: child.get(attr))
+
+
+#
+# Prepare the XML document with all the collected nodes
+#
 
 xml_file_header = "<?xml version=\"1.0\" encoding=\"utf-8\"?>\n"
 
@@ -42,3 +52,10 @@ for i in range(0, len(translations)):
     xml_file = open(translations[i], "w")
     xml_file.write(pretty_xml_string.encode('utf-8'))
     xml_file.close()
+
+# Make another copy of XML with sorted keys
+for i in range(0, len(translations)):
+    tree = etree.parse(translations[i])
+    root = tree.getroot()
+    sortchildrenby(root, resourceNameKey)
+    tree.write(translations[i] + '_sorted.xml')
