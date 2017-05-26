@@ -2,7 +2,14 @@
 
 # Installation (for detailed instruction see - https://github.com/amardeshbd/android-resource-converter/blob/master/README.md
 
-# usage: $ python csv2xml.py <file_with_translations>.csv
+# Quick Installation Guide
+# ------------------------------------
+# wget https://bootstrap.pypa.io/get-pip.py
+# sudo python get-pip.py
+# sudo pip install -r requirements.txt
+
+
+# Usage: $ python csv2xml.py <file_with_translations>.csv
 
 import csv
 from lxml import etree
